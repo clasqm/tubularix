@@ -12,7 +12,10 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Qt5: the QtGui module was split up. Everything the game uses from QtGui in
 # Qt4 (QApplication, QMainWindow, QDialog, QAction, ...) now lives in
 # QtWidgets, so the widgets module has to be requested explicitly.
-find_package(Qt5 5.5 REQUIRED COMPONENTS Widgets Network)
+#5.12 is the real minimum: QRandomGenerator (5.10) and
+#QFontMetrics::horizontalAdvance() (5.11) are used instead of the deprecated
+#qrand()/qsrand() and QFontMetrics::width().
+find_package(Qt5 5.12 REQUIRED COMPONENTS Widgets Network)
 
 set(tubularix_SOURCES
     src/src/main.cpp

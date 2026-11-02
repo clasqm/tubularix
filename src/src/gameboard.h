@@ -27,7 +27,7 @@
 #include <QList>
 #include <QPicture>
 //#include <QImage>
-#include <QTime>
+#include <QElapsedTimer>
 #include <QTimer>
 #include <QWidget>
 
@@ -177,7 +177,7 @@ private:
 	QTimer *pieceTimer;
 	QTimer *animTimer;
 	QTimer *cursorTimer;
-	QTime time;
+	QElapsedTimer time; //Qt5: QTime::start/restart/elapsed are deprecated
 
 	bool piecePaintingNeeded;
 	bool scenarioPaintingNeeded;

@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
 	ui->setupUi(this);
 	randSeed = QTime::currentTime().msec();
-	qsrand(randSeed);
+	randGenerator.seed(randSeed);
 	currentGameType = singlePlayer;
 	currentGameMode = tubularix;
 	networkConnected = false;
@@ -674,11 +674,11 @@ void MainWindow::startGame(bool sendStreamIfNeeded)
 		if(sendStreamIfNeeded)
 		{
 			randSeed = QTime::currentTime().msec();
-			qsrand(randSeed);
+			randGenerator.seed(randSeed);
 		}
 
 		for(int i = 0; i < 10; i++)
-			pieces.append(qrand() % 7);
+			pieces.append(randGenerator.bounded(7));
 	}
 	gameBoard->setNextPiecesList(pieces);
 	if(currentGameType == twoPlayers || currentGameType == networkServer || currentGameType == networkClient)
@@ -816,11 +816,12 @@ void MainWindow::endGame(bool sendStreamIfNeeded)
 		}
 
 		bool ok;
-		playerName = QInputDialog::getText(this, tr("High scores"),
+		const QString newPlayerName = QInputDialog::getText(this, tr("High scores"),
 		   tr("Enter your name"), QLineEdit::Normal, playerName, &ok);
-		playerName.left(10);
-		if(ok && !playerName.isEmpty())
+		if(ok && !newPlayerName.isEmpty())
 		{
+			//the high score table has a fixed width name column
+			playerName = newPlayerName.left(10);
 			writeHighScores();
 			showHighScores(pos);
 		}
@@ -1776,7 +1777,7 @@ void MainWindow::processStream(QDataStream &in/*, quint16 nextBlockSize*/)
 		in>>n;
 		randSeed = int(n);
 		if(samePieces)
-			qsrand(randSeed);
+			randGenerator.seed(randSeed);
 
 		//gameBoard2->startGame();
 		startGame(false);
@@ -1884,7 +1885,7 @@ void MainWindow::addPiece()
 {
 	if(samePieces)
 	{
-		pieces.append(qrand() % 7);
+		pieces.append(randGenerator.bounded(7));
 		gameBoard->addNextPiece(pieces.last());
 		gameBoard2->addNextPiece(pieces.last());
 	}

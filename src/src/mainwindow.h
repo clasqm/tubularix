@@ -31,6 +31,7 @@
 #include <QList>
 #include <QMessageBox>
 #include <QPixmap>
+#include <QRandomGenerator>
 #include <QRect>
 #include <QSplitter>
 #include <QTcpServer>
@@ -137,6 +138,9 @@ private:
 	QSplitter *splitter;
 
 	int randSeed;
+	//Qt5: qsrand()/qrand() are deprecated, so the piece sequence that both
+	//network players derive from randSeed comes from this seeded generator.
+	QRandomGenerator randGenerator;
 
 	int linesToSend;
 

@@ -25,6 +25,7 @@
 #include <QFontMetrics>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QRandomGenerator>
 #include <QTimer>
 #include <QWheelEvent>
 #include <math.h>
@@ -812,7 +813,7 @@ void GameBoard::addLines()
 		scenario[(rows - 1) * columns + j] = 1;
 		scenarioChanges[(rows - 1) * columns + j] = 1;
 	}
-	scenario[(rows - 1) * columns + (qrand() % columns)] = 0;
+	scenario[(rows - 1) * columns + QRandomGenerator::global()->bounded(columns)] = 0;
 
 	scenarioChangesPaintingNeeded = true;
 	repaint();
@@ -1612,12 +1613,12 @@ void GameBoard::paintTextInfo(QPainter &painter)
 		painter.setBrush(gameColors->color(11));
 		painter.drawRoundedRect(100, 300, 630, 200, 10, 10);
 		fontMetrics = QFontMetrics(font);
-		painter.drawText(100 + 630 / 2 - fontMetrics.width(tr("game paused")) / 2, 380,
+		painter.drawText(100 + 630 / 2 - fontMetrics.horizontalAdvance(tr("game paused")) / 2, 380,
 			tr("game paused"));
 		font.setPointSize(36);
 		painter.setFont(font);
 		fontMetrics = QFontMetrics(font);
-		painter.drawText(100 + 630 / 2 - fontMetrics.width(tr("press p to continue")) / 2, 460,
+		painter.drawText(100 + 630 / 2 - fontMetrics.horizontalAdvance(tr("press p to continue")) / 2, 460,
 			tr("press p to continue"));
 		painter.restore();
 		break;
@@ -1628,24 +1629,24 @@ void GameBoard::paintTextInfo(QPainter &painter)
 
 		font.setPointSize(46);
 		fontMetrics = QFontMetrics(font);
-		while(font.pointSize() > 1 && fontMetrics.width(message) >= initialWidth - 45)
+		while(font.pointSize() > 1 && fontMetrics.horizontalAdvance(message) >= initialWidth - 45)
 		{
 			font.setPointSize(font.pointSize() - 1);
 			fontMetrics = QFontMetrics(font);
 		}
 
 		painter.setFont(font);
-		painter.drawText(15 + 805 / 2 - fontMetrics.width(message) / 2, 380, message);
+		painter.drawText(15 + 805 / 2 - fontMetrics.horizontalAdvance(message) / 2, 380, message);
 
 		font.setPointSize(36);
 		fontMetrics = QFontMetrics(font);
-		while(font.pointSize() > 1 && fontMetrics.width(subMessage) >= initialWidth - 45)
+		while(font.pointSize() > 1 && fontMetrics.horizontalAdvance(subMessage) >= initialWidth - 45)
 		{
 			font.setPointSize(font.pointSize() - 1);
 			fontMetrics = QFontMetrics(font);
 		}
 		painter.setFont(font);
-		painter.drawText(15 + 805 / 2 - fontMetrics.width(subMessage) / 2, 460, subMessage);
+		painter.drawText(15 + 805 / 2 - fontMetrics.horizontalAdvance(subMessage) / 2, 460, subMessage);
 
 		painter.restore();
 		//message.clear();

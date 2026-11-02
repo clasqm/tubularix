@@ -19,6 +19,7 @@
  ***************************************************************************/
 
 #include "piece.h"
+#include <QRandomGenerator>
 //#include <QTime>
 
 Piece::Piece()
@@ -37,7 +38,7 @@ Piece::Piece()
 int Piece::selectPiece(int num)
 {
 	if(num == -1)
-		selPiece = qrand() % 7;
+		selPiece = QRandomGenerator::global()->bounded(7);
 	else
 		selPiece = num;
 

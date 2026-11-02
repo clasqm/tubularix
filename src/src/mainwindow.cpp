@@ -22,9 +22,12 @@
 #include "ui_mainwindow.h"
 #include "gametypedialog.h"
 #include "gameoptionsdialog.h"
+#include <QCloseEvent>
 #include <QDateTime>
 #include <QColorDialog>
 #include <QGridLayout>
+#include <QKeyEvent>
+#include <QLineEdit>
 #include <QLocale>
 #include <QSettings>
 #include <QTime>

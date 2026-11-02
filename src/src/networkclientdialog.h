@@ -21,7 +21,7 @@
 #ifndef NETWORKCLIENTDIALOG_H
 #define NETWORKCLIENTDIALOG_H
 
-#include <QtGui/QDialog>
+#include <QDialog>
 
 namespace Ui {
     class NetworkClientDialog;

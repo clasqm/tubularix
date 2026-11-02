@@ -20,9 +20,13 @@
 
 #include "gameboard.h"
 #include <QAction>
+#include <QCursor>
+#include <QFont>
+#include <QFontMetrics>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QTimer>
+#include <QWheelEvent>
 #include <math.h>
 
 
@@ -2062,16 +2066,19 @@ void GameBoard::wheelEvent(QWheelEvent *event)
 	if(!pieceTimer->isActive())
 		return;
 
+	//Qt5: QWheelEvent::delta() is deprecated, angleDelta() is the replacement
+	const int delta = event->angleDelta().y();
+
 	if(mouseControlType == permanentMouseControl || mouseControlType == linealMouseControl)
 	{
-		if(event->delta() < 0)
+		if(delta < 0)
 			moveDown();
 	}
 	else if(mouseControlType == mouseWheelControl)
 	{
-		if(event->delta() > 0)
+		if(delta > 0)
 			moveLeft();
-		else if(event->delta() < 0)
+		else if(delta < 0)
 			moveRight();
 	}
 

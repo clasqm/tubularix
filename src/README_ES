@@ -1,6 +1,6 @@
 Presentación:
 =============
-Tubularix es un juego libre similar al Tetris visto desde una perspectiva tubular. Las reglas del juego son muy similares a las del Tetris. El juego está escrito en c++ con las librerías Qt 4.
+Tubularix es un juego libre similar al Tetris visto desde una perspectiva tubular. Las reglas del juego son muy similares a las del Tetris. El juego está escrito en c++ con las librerías Qt 5.
 El juego puede ser ejecutado en GNU/Linux, Windows o Mac.
 
 Puedes encontrar noticias y actualizaciones de Tubularix en:
@@ -10,7 +10,7 @@ Por favor, envía tus comentarios, sugerencias, críticas, etc. a <miguelescuder
 
 Requisitos:
 ===========
-Qt 4.5 o mayor.
+Qt 5 (Widgets y Network) y CMake.
 
 Instrucciones (WINDOWS):
 ========================
@@ -20,30 +20,21 @@ Instrucciones (GNU/Linux):
 ==========================
 Si descargaste una versión ya compilada, solo necesitas descomprimir el archivo, entrar en el directorio del juego y ejecutar tubularix.
 
-Compilación y ejecución (GNU/Linux):
-====================================
+Compilación y ejecución:
+=======================
 Descomprime el archivo
-Abre una consola, vete al directorio principal del juego y ejecuta:
-qmake (o qmake-qt4, dependiendo de tu distribución)
+Abre una terminal, vete al directorio principal del juego y ejecuta:
+mkdir build
+cd build
+cmake ..
 make
 
-Si la compilación termina satisfactoriamente, puedes ir al directorio principal del juego y ejecutar tubularix.
+Si la compilación termina satisfactoriamente, puedes ir al directorio build y ejecutar tubularix.
 
-Instalación (GNU/Linux):
-========================
-Descomprime el archivo
-Abre una consola, vete al directorio principal del juego y ejecuta:
-qmake (o qmake-qt4, dependiendo de tu distribución)
-make
-sudo make install
-
-Si la instalación termina satisfactoriamente, puedes iniciar tubularix directamente desde una consola o ejecutarlo desde cualquier lanzador de aplicaciones.
-
-Rendimiento (GNU/Linux):
-========================
-Puedes ejecutar tubularix añadiendo
--graphicssystem raster
-en la línea de comandos (o en el archivo tubularix.desktop) y probablemente obtendrás una gran mejora en el rendimiento.
+Haiku:
+======
+Consulta el archivo README del directorio principal para saber qué paquetes
+hacen falta en Haiku y dónde se guardan la configuración y las traducciones.
 
 Notas adicionales para OS/2:
 ============================

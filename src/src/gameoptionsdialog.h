@@ -24,7 +24,7 @@
 #include "gamecolors.h"
 #include "keyselectionbutton.h"
 #include "piececolorselection.h"
-#include <QtGui/QDialog>
+#include <QDialog>
 #include <QCloseEvent>
 
 namespace Ui {

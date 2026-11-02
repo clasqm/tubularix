@@ -21,7 +21,7 @@
 #ifndef NETWORKSERVERDIALOG_H
 #define NETWORKSERVERDIALOG_H
 
-#include <QtGui/QDialog>
+#include <QDialog>
 
 namespace Ui {
     class NetworkServerDialog;

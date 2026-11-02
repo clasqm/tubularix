@@ -23,10 +23,12 @@
 
 #include "gamecolors.h"
 #include "piece.h"
+#include <QAction>
 #include <QList>
 #include <QPicture>
 //#include <QImage>
 #include <QTime>
+#include <QTimer>
 #include <QWidget>
 
 class GameBoard : public QWidget

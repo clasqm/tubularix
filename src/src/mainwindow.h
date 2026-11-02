@@ -24,11 +24,14 @@
 #include "gameboard.h"
 #include "gamecolors.h"
 #include "gametypedialog.h"
-#include <QtGui/QMainWindow>
+#include <QMainWindow>
 #include <QActionGroup>
+#include <QDataStream>
 #include <QInputDialog>
 #include <QList>
 #include <QMessageBox>
+#include <QPixmap>
+#include <QRect>
 #include <QSplitter>
 #include <QTcpServer>
 #include <QTcpSocket>

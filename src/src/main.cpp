@@ -19,11 +19,41 @@
  ***************************************************************************/
 
 #include "mainwindow.h"
-#include <QtGui/QApplication>
+#include <QApplication>
 #include <QLocale>
 #include <QSettings>
-#include <QTextCodec>
+#include <QStringList>
 #include <QTranslator>
+
+#ifdef __HAIKU__
+#include <FindDirectory.h>
+#include <StorageDefs.h>
+#endif
+
+
+//Directories that may contain the compiled translations (*.qm)
+static QStringList translationDirectories()
+{
+	QStringList directories;
+	const QString applicationDir = QCoreApplication::applicationDirPath();
+
+	//running from the build tree or from an unpackaged copy next to the binary
+	directories << applicationDir
+		<< applicationDir + "/translations"
+		<< applicationDir + "/../translations";
+
+#ifdef __HAIKU__
+	//installed through a package: /boot/system/data/tubularix
+	//installed by hand: ~/config/non-packaged/data/tubularix
+	char path[B_PATH_NAME_LENGTH];
+	if(find_directory(B_SYSTEM_DATA_DIRECTORY, -1, false, path, sizeof(path)) == B_OK)
+		directories << QString::fromLocal8Bit(path) + "/tubularix";
+	if(find_directory(B_USER_NONPACKAGED_DATA_DIRECTORY, -1, false, path, sizeof(path)) == B_OK)
+		directories << QString::fromLocal8Bit(path) + "/tubularix";
+#endif
+
+	return directories;
+}
 
 int main(int argc, char *argv[])
 {
@@ -37,21 +67,23 @@ int main(int argc, char *argv[])
 	QSettings settings;
 	settings.beginGroup("General");
 
+	const QString language = settings.value("language", QLocale::system().name()).toString();
+	const QString translationFile = QString("tubularix_") + language;
+
 	QTranslator translator;
-	if(!translator.load("tubularix_" + settings.value("language", QLocale::system().name()).toString()))
+	const QStringList directories = translationDirectories();
+	for(int i = 0; i < directories.size(); i++)
 	{
-		if(!translator.load(QCoreApplication::applicationDirPath() + "/translations/tubularix_"
-			+ settings.value("language", QLocale::system().name()).toString()))
-		{
-			translator.load("/usr/share/games/tubularix/tubularix_"
-				+ settings.value("language", QLocale::system().name()).toString());
-		}
+		if(translator.load(translationFile, directories.at(i)))
+			break;
 	}
+	if(translator.isEmpty())
+		translator.load(translationFile); //Qt's standard translation directories
 	app.installTranslator(&translator);
 	settings.endGroup();
 
-	//Configure the codec used by tr()
-	QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
+	//Qt5 always uses UTF-8 for tr() strings, so the Qt4 codec setup
+	//(QTextCodec::setCodecForTr) is neither needed nor available anymore.
 
 	MainWindow win;
 	//win.setGeometry(20, 80, 1024, 900);
